@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-image: url('https://www.divergentes.com/wp-content/uploads/2024/01/unp.jpeg');
+    background-size: cover;
+    background-position: center;
+   background-repeat: no-repeat;
+}
+
+.login-container{
+    width: 300px;
+    padding: 20px;
+    background-color: #ffffffa8;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.login-container h2{
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-container label{
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.login-container input{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.login-container button{
+    width: auto;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer; /*Modifica el cursor al estar sobre el button*/
+    font-size: 16px;
+}
+
+.login-container button:hover{
+    background-color: #45a049; /*modifica el color del Button si el cursor esta sobre el*/
+}
+
