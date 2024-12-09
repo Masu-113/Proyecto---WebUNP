@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal</title>
+    <link rel="stylesheet" href="styles-home.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="#">Procedimientos</a></li>
+                <li><a href="#">Equipos</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <aside class="actions">
+            <h4>Acciones Disponibles</h4>
+            <ul>
+                <li><button class="action-button" onclick="displayContent('Activos', 'Lista de los activos.')">Activos</button></li>
+                <li><button class="action-button" onclick="displayContent('Ingresar Activos', 'Formulario para ingresar activos.')">Ingresar Activos</button></li>
+                <li><button class="action-button" onclick="displayContent('Mover Activos', 'Proceso de mover activos a otra ubicación.')">Mover Activos</button></li>
+                <li><button class="action-button" onclick="displayContent('Depreciación de Activos', 'Información sobre la depreciación de activos.')">Depreciación de Activos</button></li>
+                <li><button class="action-button" onclick="displayContent('Empleados', 'Lista de empleados registrados.')">Empleados</button></li>
+                <li><button class="action-button" onclick="displayContent('Agregar Empleado', 'Formulario para agregar nuevos empleados.')">Agregar Empleado</button></li>
+            </ul>
+        </aside>
+        <section class="dynamic-content">
+            <h2 id="dynamic-title">Selecciona una acción</h2>
+            <p id="dynamic-body">El contenido aparecerá aquí.</p>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
