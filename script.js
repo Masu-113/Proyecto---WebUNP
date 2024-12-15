@@ -1,4 +1,4 @@
-// Función para mostrar contenido dinámico en la página de inicio
+
 function displayContent(title, body) {
     const titleElement = document.getElementById('dynamic-title');
     const bodyElement = document.getElementById('dynamic-body');
@@ -11,7 +11,20 @@ function displayContent(title, body) {
     }
 }
 
-// Lógica para el formulario de inicio de sesión
+// Función para conectar a la API
+async function fetchDataFromAPI() {
+    try {
+        const response = await fetch('http://3.138.155.108:3000/');
+        if (!response.ok) {
+            throw new Error('Error en la solicitud: ' + response.statusText);
+        }
+        const data = await response.json();
+        displayContent(data.title, data.body);
+    } catch (error) {
+        console.error('Error al obtener los datos de la API:', error);
+    }
+}
+
 document.querySelector("form")?.addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -19,6 +32,7 @@ document.querySelector("form")?.addEventListener("submit", function(event) {
     const password = document.getElementById("password")?.value;
 
     if (username === "admin" && password === "1234") {
+        fetchDataFromAPI();
         window.location.href = "Home.html";
     } else {
         alert("Usuario o contraseña no válidos. Intente de nuevo.");

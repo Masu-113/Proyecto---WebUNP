@@ -1,19 +1,297 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Principal</title>
     <link rel="stylesheet" href="styles-home.css">
+    <script>
+        function displayContent(action) {
+            const contentSection = document.getElementById('dynamic-content');
+            contentSection.innerHTML = `<h2>${action}</h2>`;
+            
+            contentSection.innerHTML += '<div id="action-buttons"></div>';
+            const buttonsContainer = document.getElementById('action-buttons');
+
+            let buttons = '';
+            switch (action) {
+                case 'Activos':
+                    buttons = `
+                        <button onclick="fetchData('activos')">Ver Activos</button>
+                        <button onclick="showForm('insertActivo')">Insertar Activo</button>
+                        <button onclick="modifyData('activos')">Modificar Activo</button>
+                        <button onclick="deleteData('activos')">Dar de Baja Activo</button>
+                    `;
+                    break;
+                case 'Universidades':
+                    buttons = `
+                        <button onclick="fetchData('universidades')">Ver Universidades</button>
+                        <button onclick="showForm('insertUniversidad')">Agregar Universidad</button>
+                    `;
+                    break;
+                case 'Escuelas':
+                    buttons = `
+                        <button onclick="fetchData('escuelas')">Ver Escuelas</button>
+                        <button onclick="showForm('insertEscuela')">Agregar Escuela</button>
+                    `;
+                    break;
+                case 'Depreciacion':
+                    buttons = `
+                        <button onclick="showForm('insertDepreciacion')">Agregar Depreciación</button>
+                    `;
+                    break;
+                case 'Empleados':
+                    buttons = `
+                        <button onclick="fetchData('empleados')">Ver Empleados</button>
+                        <button onclick="showForm('insertEmpleado')">Agregar Empleado</button>
+                    `;
+                    break;
+                case 'Ubicaciones':
+                    buttons = `
+                        <button onclick="fetchData('ubicaciones')">Ver Ubicaciones</button>
+                        <button onclick="showForm('insertUbicacion')">Agregar Ubicación</button>
+                    `;
+                    break;
+                default:
+                    buttons = '<p>No hay acciones disponibles para esta opción.</p>';
+            }
+
+            buttonsContainer.innerHTML = buttons; 
+        }
+
+        async function fetchData(type) {
+            const contentSection = document.getElementById('dynamic-content');
+            contentSection.innerHTML += `<p>Cargando datos de ${type}...</p>`;
+            
+            contentSection.innerHTML = `<h2>Datos de ${type}</h2>`;
+            try {
+                const response = await fetch(`http://3.138.155.108:3000/api/${type}`);
+                if (!response.ok) throw new Error('Error al cargar los datos');
+                const data = await response.json();
+                contentSection.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                console.error(error);
+                contentSection.innerHTML += `<p>Error: ${error.message}</p>`;
+            }
+        }
+
+        function showForm(action) {
+            const contentSection = document.getElementById('dynamic-content');
+            let formHTML = '';
+
+            switch (action) {
+                case 'insertActivo':
+                    formHTML = `
+                        <h3>Formulario para Insertar Activo</h3>
+                        <form id="activoForm">
+                            <label for="activoNombre">Nombre del Activo:</label>
+                            <input type="text" id="activoNombre" required>
+                            <label for="activoTipo">Tipo de Activo:</label>
+                            <input type="number" id="activoTipo" required>
+                            <label for="activoNumeroSerie">Número de Serie:</label>
+                            <input type="text" id="activoNumeroSerie" required>
+                            <label for="activoCosto">Costo:</label>
+                            <input type="number" id="activoCosto" required>
+                            <label for="activoFechaCompra">Fecha de Compra:</label>
+                            <input type="date" id="activoFechaCompra" required>
+                            <label for="activoGarantia">Garantía (meses):</label>
+                            <input type="number" id="activoGarantia" required>
+                            <label for="activoEstado">Estado Actual:</label>
+                            <input type="number" id="activoEstado" required>
+                            <label for="activoProveedor">Proveedor:</label>
+                            <input type="number" id="activoProveedor" required>
+                            <label for="activoEmpleado">Empleado:</label>
+                            <input type="number" id="activoEmpleado" required>
+                            <label for="activoUbicacion">Ubicación:</label>
+                            <input type="number" id="activoUbicacion" required>
+                            <button type="button" onclick="submitForm('activos')">Agregar Activo</button>
+                        </form>
+                    `;
+                    break;
+                case 'insertUniversidad':
+                    formHTML = `
+                        <h3>Formulario para Agregar Universidad</h3>
+                        <form id="universidadForm">
+                            <label for="universidadNombre">Nombre de la Universidad:</label>
+                            <input type="text" id="universidadNombre" required>
+                            <label for="universidadBarrio">Barrio:</label>
+                            <input type="number" id="universidadBarrio" required>
+                            <label for="universidadDireccion">Dirección:</label>
+                            <input type="text" id="universidadDireccion" required>
+                            <button type="button" onclick="submitForm('universidades')">Agregar Universidad</button>
+                        </form>
+                    `;
+                    break;
+                case 'insertEscuela':
+                    formHTML = `
+                        <h3>Formulario para Agregar Escuela</h3>
+                        <form id="escuelaForm">
+                            <label for="escuelaNombre">Nombre de la Escuela:</label>
+                            <input type="text" id="escuelaNombre" required>
+                            <label for="escuelaUniversidad">Universidad:</label>
+                            <input type="number" id="escuelaUniversidad" required>
+                            <button type="button" onclick="submitForm('escuelas')">Agregar Escuela</button>
+                        </form>
+                    `;
+                    break;
+                case 'insertDepreciacion':
+                    formHTML = `
+                        <h3>Formulario para Agregar Depreciación</h3>
+                        <form id="depreciacionForm">
+                            <label for="depreciacionActivo">Activo:</label>
+                            <input type="number" id="depreciacionActivo" required>
+                            <label for="depreciacionValorInicial">Valor Inicial:</label>
+                            <input type="number" id="depreciacionValorInicial" required>
+                            <label for="depreciacionValorFinal">Valor Final:</label>
+                            <input type="number" id="depreciacionValorFinal" required>
+                            <label for="depreciacionFechaCalculo">Fecha de Cálculo:</label>
+                            <input type="date" id="depreciacionFechaCalculo" required>
+                            <button type="button" onclick="submitForm('depreciaciones')">Agregar Depreciación</button>
+                        </form>
+                    `;
+                    break;
+                case 'insertEmpleado':
+                    formHTML = `
+                        <h3>Formulario para Agregar Empleado</h3>
+                        <form id="empleadoForm">
+                            <label for="empleadoPNU">Primer Nombre:</label>
+                            <input type="text" id="empleadoPNU" required>
+                            <label for="empleadoSNU">Segundo Nombre:</label>
+                            <input type="text" id="empleadoSNU">
+                            <label for="empleadoPAU">Primer Apellido:</label>
+                            <input type="text" id="empleadoPAU" required>
+                            <label for="empleadoSAU">Segundo Apellido:</label>
+                            <input type="text" id="empleadoSAU">
+                            <label for="empleadoCedula">Cédula:</label>
+                            <input type="text" id="empleadoCedula" required>
+                            <label for="empleadoUniversidad">Universidad:</label>
+                            <input type="number" id="empleadoUniversidad" required>
+                            <label for="empleadoEscuela">Escuela:</label>
+                            <input type="number" id="empleadoEscuela" required>
+                            <label for="empleadoCargo">Cargo:</label>
+                            <input type="number" id="empleadoCargo" required>
+                            <button type="button" onclick="submitForm('empleados')">Agregar Empleado</button>
+                        </form>
+                    `;
+                    break;
+                case 'insertUbicacion':
+                    formHTML = `
+                        <h3>Formulario para Agregar Ubicación</h3>
+                        <form id="ubicacionForm">
+                            <label for="ubicacionNombre">Nombre de la Ubicación:</label>
+                            <input type="text" id="ubicacionNombre" required>
+                            <button type="button" onclick="submitForm('ubicaciones')">Agregar Ubicación</button>
+                        </form>
+                    `;
+                    break;
+                default:
+                    formHTML = '<p>No hay formulario disponible para esta acción.</p>';
+            }
+
+            contentSection.innerHTML = formHTML;
+        }
+
+        async function submitForm(type) {
+            let formData;
+            switch (type) {
+                case 'activos':
+                    formData = {
+                        Nombre: document.getElementById('activoNombre').value,
+                        IdTipo: document.getElementById('activoTipo').value,
+                        NumeroSerie: document.getElementById('activoNumeroSerie').value,
+                        Costo: document.getElementById('activoCosto').value,
+                        FechaCompra: document.getElementById('activoFechaCompra').value,
+                        Garantia: document.getElementById('activoGarantia').value,
+                        IdEstAct: document.getElementById('activoEstado').value,
+                        IdProveedor: document.getElementById('activoProveedor').value,
+                        IdEmpleado: document.getElementById('activoEmpleado').value,
+                        IdUbicacion: document.getElementById('activoUbicacion').value,
+                    };
+                    break;
+                case 'universidades':
+                    formData = {
+                        Nombre: document.getElementById('universidadNombre').value,
+                        IdBarrio: document.getElementById('universidadBarrio').value,
+                        Direccion: document.getElementById('universidadDireccion').value,
+                    };
+                    break;
+                case 'escuelas':
+                    formData = {
+                        NombreEscuela: document.getElementById('escuelaNombre').value,
+                        IdUniversidad: document.getElementById('escuelaUniversidad').value,
+                    };
+                    break;
+                case 'depreciaciones':
+                    formData = {
+                        IdActivo: document.getElementById('depreciacionActivo').value,
+                        ValorInicial: document.getElementById('depreciacionValorInicial').value,
+                        ValorFinal: document.getElementById('depreciacionValorFinal').value,
+                        FechaCalculo: document.getElementById('depreciacionFechaCalculo').value,
+                    };
+                    break;
+                case 'empleados':
+                    formData = {
+                        PNU: document.getElementById('empleadoPNU').value,
+                        SNU: document.getElementById('empleadoSNU').value,
+                        PAU: document.getElementById('empleadoPAU').value,
+                        SAU: document.getElementById('empleadoSAU').value,
+                        Cedula: document.getElementById('empleadoCedula').value,
+                        IdUniversidad: document.getElementById('empleadoUniversidad').value,
+                        IdEscuela: document.getElementById('empleadoEscuela').value,
+                        IdCargo: document.getElementById('empleadoCargo').value,
+                    };
+                    break;
+                case 'ubicaciones':
+                    formData = {
+                        NombreUbicacion: document.getElementById('ubicacionNombre').value,
+                    };
+                    break;
+                default:
+                    return;
+            }
+
+            try {
+                const response = await fetch(`http://3.138.155.108:3000/api/${type}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error);
+                }
+
+                alert(`Se ha agregado exitosamente el ${type}.`);
+                document.getElementById('dynamic-content').innerHTML = ''; 
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        }
+
+        function modifyData(type) {
+            const contentSection = document.getElementById('dynamic-content');
+            contentSection.innerHTML = `<h2>Modificar ${type}</h2>`;
+            contentSection.innerHTML += `<p>Selecciona un elemento para modificar.</p>`;
+        }
+
+        function deleteData(type) {
+            const contentSection = document.getElementById('dynamic-content');
+            contentSection.innerHTML = `<h2>Dar de baja ${type}</h2>`;
+            contentSection.innerHTML += `<p>Selecciona un elemento para dar de baja.</p>`;
+        }
+    </script>
 </head>
 <body>
     <header>
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="#">Procedimientos</a></li>
-                <li><a href="#">Equipos</a></li>
+                <li><a href="Home.html">Procedimientos</a></li>
                 <li><a href="#">Contacto</a></li>
+                <img src="" alt="">
             </ul>
         </nav>
     </header>
@@ -21,19 +299,21 @@
         <aside class="actions">
             <h4>Acciones Disponibles</h4>
             <ul>
-                <li><button class="action-button" onclick="displayContent('Activos', 'Lista de los activos.')">Activos</button></li>
-                <li><button class="action-button" onclick="displayContent('Ingresar Activos', 'Formulario para ingresar activos.')">Ingresar Activos</button></li>
-                <li><button class="action-button" onclick="displayContent('Mover Activos', 'Proceso de mover activos a otra ubicación.')">Mover Activos</button></li>
-                <li><button class="action-button" onclick="displayContent('Depreciación de Activos', 'Información sobre la depreciación de activos.')">Depreciación de Activos</button></li>
-                <li><button class="action-button" onclick="displayContent('Empleados', 'Lista de empleados registrados.')">Empleados</button></li>
-                <li><button class="action-button" onclick="displayContent('Agregar Empleado', 'Formulario para agregar nuevos empleados.')">Agregar Empleado</button></li>
+                <li><button class="action-button" onclick="displayContent('Activos')">Activos</button></li>
+                <li><button class="action-button" onclick="displayContent('Universidades')">Universidades</button></li>
+                <li><button class="action-button" onclick="displayContent('Escuelas')">Escuelas</button></li>
+                <li><button class="action-button" onclick="displayContent('Depreciacion')">Depreciación</button></li>
+                <li><button class="action-button" onclick="displayContent('Empleados')">Empleados</button></li>
+                <li><button class="action-button" onclick="displayContent('Ubicaciones')">Ubicaciones</button></li>
             </ul>
         </aside>
-        <section class="dynamic-content">
-            <h2 id="dynamic-title">Selecciona una acción</h2>
-            <p id="dynamic-body">El contenido aparecerá aquí.</p>
+        <section class="dynamic-content" id="dynamic-content">
+            <h2>Bienvenido</h2>
+            <p>Selecciona una acción para ver más información.</p>
         </section>
     </main>
-    <script src="script.js"></script>
+    <footer>
+        <p>&copy; 2024 Tu Empresa. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>

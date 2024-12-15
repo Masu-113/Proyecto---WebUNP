@@ -3,12 +3,38 @@ body {
     flex-direction: column;
     font-family: Arial, sans-serif;
     margin: 0;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://www.divergentes.com/wp-content/uploads/2024/01/unp.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(2px);
+    z-index: -1;
+    opacity: 0.7;
 }
 
 header {
-    background-color: #4caf50;
+    background-color: #021b4d;
     color: white;
     padding: 10px;
+    text-align: center;
+}
+
+header {
+    background-color: #021b4d;
+    color: white;
+    padding: 10px;
+    position: relative;
 }
 
 nav ul {
@@ -16,10 +42,56 @@ nav ul {
     margin: 0;
     padding: 0;
     display: flex;
+    justify-content: space-around;
 }
 
 nav ul li {
     margin-right: 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+}
+
+nav ul li a:hover {
+    background-color: #ff0000;
+    border-radius: 5px;
+}
+
+header::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 100px;
+    height: 50px;
+    background-image: url('https://moria.aurens.com/organizations/80ef937e-8c1d-41b2-974e-bebf5c1e38f9/logos/pdoho5-logo%20unp.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+nav ul li {
+    margin-right: 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+}
+
+nav ul li a:hover {
+    background-color: #ff0000;
+}
+
+nav ul li a:focus {
+    outline: 2px solid #ff0000;
 }
 
 main {
@@ -33,18 +105,18 @@ main {
     padding: 10px;
     background-color: #f4f4f4;
     border: 1px solid #ccc;
-    
 }
 
 .actions h4 {
     margin-bottom: 10px;
+    color:#021b4d;
 }
 
 .action-button {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
-    background-color: #4caf50;
+    background-color: #021b4d;
     color: white;
     border: none;
     border-radius: 5px;
@@ -52,7 +124,7 @@ main {
 }
 
 .action-button:hover {
-    background-color: #45a049;
+    background-color: #ff0000;
 }
 
 .dynamic-content {
@@ -65,4 +137,116 @@ main {
 
 .dynamic-content h2 {
     margin-top: 0;
+    color: #021b4d;
+}
+
+.dynamic-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #2e2c2c;
+}
+
+.dynamic-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+a {
+    color: #021b4d;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ff0000;
+    text-decoration: underline;
+}
+
+a:focus {
+    outline: 2px solid #ff0000;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input[type="text"], input[type="password"], textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+input[type="submit"] {
+    background-color: #021b4d;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #ff0000;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.actions {
+    width: 180px;
+    margin-right: 20px;
+    padding: 10px;
+    background-color: #f4f4f498;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.actions ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dynamic-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f4f4f498;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 850px;
+    margin: -2px auto;
+}
+
+.dynamic-content .action-buttons {
+    width: auto;
+    padding: 12px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dynamic-content .action-buttons:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.dynamic-content .action-buttons:not(:last-child) {
+    margin-bottom: 10px;
 }
